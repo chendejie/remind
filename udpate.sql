@@ -1,0 +1,1 @@
+UPDATE `test`.`remind_word` SET `tag` = 'mini', `content` = '表示“小”', `connect` = '迷你' WHERE `id` = 48;
