@@ -1,6 +1,3 @@
-UPDATE `test`.`remind_word` SET `tag` = 'mini', `content` = '表示“小”', `connect` = '迷你' WHERE `id` = 48;
-UPDATE `test`.`remind_word` SET `tag` = 'mono', `content` = '表示“单个，一个”', `connect` = '一个白发魔女,头发只有一根白色' WHERE `id` = 49;
-UPDATE `test`.`remind_word` SET `tag` = 'Multi', `content` = '表示”很多,很多”', `connect` = '木楼梯的阶梯很多很多' WHERE `id` = 50;
-UPDATE `test`.`remind_word` SET `tag` = 'neo', `content` = '表示”新的”', `connect` = '买了一个新的梳子,上面有no字, 说不需要自己动手' WHERE `id` = 51;
-UPDATE `test`.`remind_word` SET `tag` = 'non', `content` = '表示”不,非”', `connect` = '不要杀我,我举双手' WHERE `id` = 52;
-UPDATE `test`.`remind_word` SET `tag` = 'omni', `content` = '表示”全部  到处”', `connect` = '前面一个人, 后面是你,到处都是这样的情景' WHERE `id` = 53;
+UPDATE `test`.`remind_word` SET `id`='54', `tag`='out', `content`=' ① 表示”超过  过度”② 表示”出去  过时”', `connect`='穿外面的外套过时了,超过100年' WHERE (`id`='54');
+UPDATE `test`.`remind_word` SET `id`='55', `tag`='over', `content`=' ① 表示”过度,过分”② 表示”在……之上”③表示“翻转”', `connect`='你们玩完了, 太过分了, 不能在上面翻转,o了' WHERE (`id`='55');
+UPDATE `test`.`remind_word` SET `id`='56', `tag`='paleo', `content`=' 表示:”古,旧”', `connect`='我怕冷,ooo的叫, 古旧的衣服都要穿上' WHERE (`id`='56');
