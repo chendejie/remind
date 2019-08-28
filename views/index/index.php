@@ -5,7 +5,7 @@ IndexAsset::register($this);?>
 <?php $this->beginBlock('css') ?>
     <style>.hd{display:none;}</style>
 <?php $this->endBlock() ?>
-<h1 class="text-center">列表<span class="tm">60</span></h1>
+<h1 class="text-center"><?= $data['id']??'' ?>列表<span class="tm">60</span></h1>
 <div class="form-horizontal">
     <input type="hidden" id="ids" value="<?= isset($data['id'])?$data['id']:0 ?>">
 
