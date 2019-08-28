@@ -42,12 +42,21 @@ IndexAsset::register($this);?>
     <script>
         $('label').on('click',function () {
             var obj = $('#'+$(this).prop('for'));
-            if(obj.hasClass('hd')){
-                obj.removeClass('hd');
-            }else{
-                obj.addClass('hd');
-            }
+            obj.toggleClass('hd')
+            // if(obj.hasClass('hd')){
+            //     obj.removeClass('hd');
+            // }else{
+            //     obj.addClass('hd');
+            // }
         });
+        $('label').on('mouseenter',function(){
+            var obj = $('#'+$(this).prop('for'));
+            obj.toggleClass('hd')
+        })
+        $('label').on('mouseleave',function(){
+            var obj = $('#'+$(this).prop('for'));
+            obj.toggleClass('hd')
+        })
 
         $('.sumit-btn').on('click',function () {
             var data = {};
