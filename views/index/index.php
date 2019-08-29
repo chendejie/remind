@@ -7,7 +7,7 @@ IndexAsset::register($this);?>
 <?php $this->endBlock() ?>
 <h1 class="text-center"><?= $data['id']??'' ?>列表<span class="tm">60</span></h1>
 <div class="form-horizontal">
-    <input type="hidden" id="ids" value="<?= isset($data['id'])?$data['id']:0 ?>">
+    <input type="hidden" data-tid="<?= $tid ?>" id="ids" value="<?= isset($data['id'])?$data['id']:0 ?>">
 
     <div class="form-group">
         <label for="inputTag" class="col-sm-2 control-label">标记</label>
@@ -34,6 +34,7 @@ IndexAsset::register($this);?>
             <button type="submit" class="btn btn-default sumit-btn btn-lg">保存</button>
             <button type="submit" class="btn btn-default prev-btn btn-lg" data-id="<?= $tid ?>">上一个</button>
             <button type="submit" class="btn btn-default next-btn btn-lg" data-id="<?= $tid ?>">下一个</button>
+            <button type="submit" class="btn btn-default pause btn-lg" data-id="<?= $tid ?>">暂停</button>
         </div>
     </div>
 </div>
@@ -89,15 +90,41 @@ IndexAsset::register($this);?>
 
 
         (function(){
+            var jumpUrl = function(){
+                var tid = parseInt($('#ids').data('tid'));
+                if(tid==0){
+                    return;
+                }
+                window.location.href = '?tid='+(tid+1)
+            }
+
             var countdown=60;
             var td = undefined;
+
+            $('.pause').on('click',function(){
+                console.log(td)
+                if(typeof td =='undefined'){
+                    $(this).text('暂停');
+                    settime($('.tm'))
+                }else{
+                    $(this).text('继续');
+                    clearTimeout(td);
+                    td = undefined;
+                }
+            })
+
             function settime(obj) {
                 if (countdown == 0) {
-                    clearInterval(td);
+                    clearTimeout(td);
                     obj.text(countdown);
                     countdown = 60;
                     return;
                 } else {
+                    if(countdown==45){
+                        jumpUrl();
+                        return;
+                    }
+
                     obj.text(countdown);
                     countdown--;
                 }
