@@ -34,3 +34,4 @@ tests/_support/_generated
 
 /vendor/*
 /runtime/*
+/config/db_debug.php
