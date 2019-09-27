@@ -5,42 +5,57 @@ IndexAsset::register($this);?>
 <?php $this->beginBlock('css') ?>
     <style>.hd{display:none;}</style>
 <?php $this->endBlock() ?>
-<h1 class="text-center"><?= $data['id']??'' ?>列表<span class="tm">60</span></h1>
-<div class="form-horizontal">
-    <input type="hidden" data-tid="<?= $tid ?>" id="ids" value="<?= isset($data['id'])?$data['id']:0 ?>">
 
+<div class="col-md-8 col-md-offset-2">
+    <h1 class="text-center"><?= implode(',', array_column($data, 'id')) ?>列表<span class="tm">60</span></h1>
+    <div class="form-horizontal form-data-div">
+    <?php foreach ($data as $val): ?>
+        <div class="single-data" data-id="<?= $val['id'] ?>">
+            <div class="form-group">
+                <label for="inputTag<?= $val['id'] ?>" class="col-sm-1 control-label">标记</label>
+                <div class="col-sm-4">
+                    <textarea id="inputTag<?= $val['id'] ?>" data-name="tag" class="form-control  data-input" rows="2"><?= isset($val['tag'])?$val['tag']:'' ?></textarea>
+                </div>
+
+                <label for="inputContent<?= $val['id'] ?>" class="col-sm-1 control-label content-divs">内容</label>
+                <div class="col-sm-4 content-div">
+                    <textarea id="inputContent<?= $val['id'] ?>" data-name="content" class="form-control data-input <?= isset($val['content'])&&!empty($val['content'])?'hd':'' ?>" rows="2"><?= isset($val['content'])?$val['content']:'' ?></textarea>
+                </div>
+                <!-- <div class="col-sm-5"></div> -->
+            </div>
+            <div class="form-group">
+                
+            </div>
+        </div>
+    <?php endforeach; ?>
     <div class="form-group">
-        <label for="inputTag" class="col-sm-2 control-label">标记</label>
-        <div class="col-sm-8">
-            <textarea id="inputTag" class="form-control " rows="3"><?= isset($data['tag'])?$data['tag']:'' ?></textarea>
+        <label for="inputConnect" class="col-sm-1 control-label">连接</label>
+        <div class="col-sm-9">
+            <textarea id="inputConnect" class="form-control <?= isset($data[0]['connect'])&&!empty($data[0]['connect'])?'hd':'' ?>" rows="3"><?= isset($data[0]['connect'])?$data[0]['connect']:'' ?></textarea>
         </div>
     </div>
-    <div class="form-group">
-        <label for="inputContent" class="col-sm-2 control-label">内容</label>
-        <div class="col-sm-8">
-            <textarea id="inputContent" class="form-control <?= isset($data['content'])&&!empty($data['content'])?'hd':'' ?>" rows="3"><?= isset($data['content'])?$data['content']:'' ?></textarea>
-        </div>
-    </div>
 
     <div class="form-group">
-        <label for="inputConnect" class="col-sm-2 control-label">连接</label>
-        <div class="col-sm-8">
-            <textarea id="inputConnect" class="form-control <?= isset($data['connect'])&&!empty($data['connect'])?'hd':'' ?>" rows="3"><?= isset($data['connect'])?$data['connect']:'' ?></textarea>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-1 col-sm-10">
             <button type="submit" class="btn btn-default sumit-btn btn-lg">保存</button>
             <button type="submit" class="btn btn-default prev-btn btn-lg" data-id="<?= $tid ?>">上一个</button>
             <button type="submit" class="btn btn-default next-btn btn-lg" data-id="<?= $tid ?>">下一个</button>
+            <button type="submit" class="btn btn-default pause-content btn-lg" data-id="<?= $tid ?>">展示/隐藏内容</button>
             <button type="submit" class="btn btn-default pause btn-lg" data-id="<?= $tid ?>">暂停</button>
         </div>
     </div>
 </div>
+</div>
+
 
 <?php $this->beginBlock('jsEnd') ?>
     <script>
+        $('.pause-content').on('click',function(){
+            $('.single-data').find('.content-div').each(function(){
+                $(this).parents('.form-group').find('.content-divs').trigger('click');
+            });
+        })
+
         $('label').on('click',function () {
             var obj = $('#'+$(this).prop('for'));
             obj.toggleClass('hd')
@@ -60,13 +75,21 @@ IndexAsset::register($this);?>
         })
 
         $('.sumit-btn').on('click',function () {
+            var dd = []
+            $('.form-data-div').find('.single-data').each(function(){
+                var t ={};
+                t['id'] = $(this).data('id');
+                $(this).find('.data-input').each(function(){
+                    t[$(this).data('name')] = $(this).val()
+                });
+                t['connect'] = $('#inputConnect').val()
+                dd.push(t)
+            });
+
             var data = {};
-            data['tag'] = $('#inputTag').val();
-            data['id'] = $('#ids').val();
-            data['content'] = $('#inputContent').val();
-            data['connect'] = $('#inputConnect').val();
+            data['data'] = dd;
             data['_csrf'] = csrf;
-            $.post('/api/input/index',data,function (d) {
+            $.post('/api/input/index-mul',data,function (d) {
                 if(d.status==200){
                     window.location.reload(true);
                 }else{
@@ -91,7 +114,7 @@ IndexAsset::register($this);?>
 
         (function(){
             var jumpUrl = function(){
-                var tid = parseInt($('#ids').data('tid'));
+                var tid = parseInt($('.next-btn').data('tid'));
                 if(tid==0){
                     return;
                 }

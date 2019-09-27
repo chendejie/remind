@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\RemindWord;
+use app\models\RemindWordNew;
 use yii\db\Query;
 use yii\web\Controller;
 use Yii;
@@ -14,6 +15,7 @@ class IndexController extends BaseController
     public function actionIndex()
     {
         $id = Yii::$app->request->get('id',1);
+        empty($id) && $id = 1;
         $size = Yii::$app->request->get('size',256);
         $r = RemindWord::find()->where(['>=','id',$id])->limit($size)->all();
         $data = [];
@@ -27,8 +29,30 @@ class IndexController extends BaseController
         }
 
 
+        return $this->render('index',['data'=>$data,'tid'=>$tid,'id'=>$id]);
+    }
 
-        return $this->render('index',['data'=>$data,'tid'=>$tid]);
+    public function actionIndex2()
+    {
+        $id = Yii::$app->request->get('id',1);
+        $gsize = Yii::$app->request->get('gsize',5);
+        
+        empty($id) && $id = 1;
+        $size = Yii::$app->request->get('size',256);
+        $r = RemindWordNew::find()->where(['>=','id',$id])->limit($size)->asArray()->all();
+        $data = [];
+        $tid = Yii::$app->request->get('tid',0);//这个
+        if(!empty($r)){
+            $arr = $this->getNum(256);
+            !isset($arr[$tid]) && $tid = 0;
+            if(isset($r[$arr[$tid]-1])){
+                $data = array_slice($r, ($arr[$tid]-1)*$gsize,$gsize);
+            }
+        }
+        // echo '<pre>';
+        // print_r($data);die;
+
+        return $this->render('index2',['data'=>$data,'tid'=>$tid,'id'=>$id]);
     }
 
     public function getNum($num){
