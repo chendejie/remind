@@ -31,7 +31,7 @@ IndexAsset::register($this);?>
     <div class="form-group">
         <label for="inputConnect" class="col-sm-1 control-label">连接</label>
         <div class="col-sm-9">
-            <textarea id="inputConnect" class="form-control <?= isset($data[0]['connect'])&&!empty($data[0]['connect'])?'hd':'' ?>" rows="3"><?= isset($data[0]['connect'])?$data[0]['connect']:'' ?></textarea>
+            <textarea id="inputConnect" class="form-control <?= isset($data[0]['connect'])&&!empty($data[0]['connect'])?'hd':'' ?>" rows="6"><?= isset($data[0]['connect'])?$data[0]['connect']:'' ?></textarea>
         </div>
     </div>
 
@@ -114,7 +114,7 @@ IndexAsset::register($this);?>
 
         (function(){
             var jumpUrl = function(){
-                var tid = parseInt($('.next-btn').data('tid'));
+                var tid = parseInt($('.next-btn').data('id'));
                 if(tid==0){
                     return;
                 }
