@@ -57,7 +57,23 @@ IndexAsset::register($this);?>
         $('label').on('mouseleave',function(){
             var obj = $('#'+$(this).prop('for'));
             obj.toggleClass('hd')
-        })
+        });
+		$(window).on('keydown',function(e){
+			var kcode = e.keyCode;
+			if(!e.altKey){
+				return;
+			}
+			if(kcode==190){
+				$('.pause').trigger('click');
+			}else if(kcode==188){
+				$('.prev-btn').trigger('click');
+			}else if(kcode==191){
+				$('.next-btn').trigger('click');
+			}else if(kcode==76){
+				$('label[for=inputContent]').trigger('click');
+				$('label[for=inputConnect]').trigger('click');
+			}
+		})
 
         $('.sumit-btn').on('click',function () {
             var data = {};
@@ -102,7 +118,7 @@ IndexAsset::register($this);?>
             var td = undefined;
 
             $('.pause').on('click',function(){
-                console.log(td)
+                //console.log(td)
                 if(typeof td =='undefined'){
                     $(this).text('暂停');
                     settime($('.tm'))
