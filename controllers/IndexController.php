@@ -17,9 +17,10 @@ class IndexController extends BaseController
         $id = Yii::$app->request->get('id',1);
         empty($id) && $id = 1;
         $size = Yii::$app->request->get('size',256);
+        $g = Yii::$app->request->get('g',0);
         $r = RemindWord::find()->where(['>=','id',$id])->limit($size)->all();
         $data = [];
-        $tid = Yii::$app->request->get('tid',0);//这个
+        $tid = Yii::$app->request->get('tid','0');//这个
         if(!empty($r)){
             $arr = $this->getNum(256);
             !isset($arr[$tid]) && $tid = 0;
@@ -29,7 +30,7 @@ class IndexController extends BaseController
         }
 
 
-        return $this->render('index',['data'=>$data,'tid'=>$tid,'id'=>$id]);
+        return $this->render('index',['data'=>$data,'tid'=>$tid,'id'=>$id,'g'=>$g]);
     }
 
     public function actionIndex2()

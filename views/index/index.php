@@ -73,7 +73,24 @@ IndexAsset::register($this);?>
 				$('label[for=inputContent]').trigger('click');
 				$('label[for=inputConnect]').trigger('click');
 			}
-		})
+		});
+        <?php if ($g==1): ?>
+            $(window).on('keydown',function(e){
+            var kcode = e.keyCode;
+            console.log(kcode)
+            if(kcode==40){
+                $('.pause').trigger('click');
+            }else if(kcode==37){
+                $('.prev-btn').trigger('click');
+            }else if(kcode==39){
+                $('.next-btn').trigger('click');
+            }else if(kcode==38){
+                $('label[for=inputContent]').trigger('click');
+                $('label[for=inputConnect]').trigger('click');
+            }
+        });
+        <?php endif ?>
+
 
         $('.sumit-btn').on('click',function () {
             var data = {};
@@ -93,7 +110,7 @@ IndexAsset::register($this);?>
 
         $('.next-btn').on('click',function () {
             var tid = $(this).data('id');
-            window.location.href = '?id=<?= $id ?>&tid='+(parseInt(tid)+1)
+            window.location.href = '?id=<?= $id ?>&g=<?= $g ?>&tid='+(parseInt(tid)+1)
         });
 
         $('.prev-btn').on('click',function () {
@@ -101,7 +118,7 @@ IndexAsset::register($this);?>
             if(tid<1){
                 tid = 1
             }
-            window.location.href = '?id=<?= $id ?>&tid='+(tid-1)
+            window.location.href = '?id=<?= $id ?>&g=<?= $g ?>&tid='+(tid-1)
         });
 
 
@@ -111,7 +128,7 @@ IndexAsset::register($this);?>
                 if(tid==0){
                     return;
                 }
-                window.location.href = '?id=<?= $id ?>&tid='+(tid+1)
+                window.location.href = '?id=<?= $id ?>&g=<?= $g ?>&tid='+(tid+1)
             }
 
             var countdown=60;
