@@ -56,6 +56,40 @@ IndexAsset::register($this);?>
             });
         })
 
+
+        $(window).on('keydown',function(e){
+            var kcode = e.keyCode;
+            if(!e.altKey){
+                return;
+            }
+            if(kcode==190){
+                $('.pause').trigger('click');
+            }else if(kcode==188){
+                $('.prev-btn').trigger('click');
+            }else if(kcode==191){
+                $('.next-btn').trigger('click');
+            }else if(kcode==76){
+                $('.pause-content').trigger('click');
+                $('label[for=inputConnect]').trigger('click');
+            }
+        });
+        <?php if ($g==1): ?>
+            $(window).on('keydown',function(e){
+            var kcode = e.keyCode;
+            console.log(kcode)
+            if(kcode==40){
+                $('.pause').trigger('click');
+            }else if(kcode==37){
+                $('.prev-btn').trigger('click');
+            }else if(kcode==39){
+                $('.next-btn').trigger('click');
+            }else if(kcode==38){
+                $('.pause-content').trigger('click');
+                $('label[for=inputConnect]').trigger('click');
+            }
+        });
+        <?php endif ?>
+
         $('label').on('click',function () {
             var obj = $('#'+$(this).prop('for'));
             obj.toggleClass('hd')
@@ -100,7 +134,7 @@ IndexAsset::register($this);?>
 
         $('.next-btn').on('click',function () {
             var tid = $(this).data('id');
-            window.location.href = '?id=<?= $id ?>&tid='+(parseInt(tid)+1)
+            window.location.href = '?id=<?= $id ?>&g=<?= $g ?>&tid='+(parseInt(tid)+1)
         });
 
         $('.prev-btn').on('click',function () {
@@ -108,7 +142,7 @@ IndexAsset::register($this);?>
             if(tid<1){
                 tid = 1
             }
-            window.location.href = '?id=<?= $id ?>&tid='+(tid-1)
+            window.location.href = '?id=<?= $id ?>&g=<?= $g ?>&tid='+(tid-1)
         });
 
 
@@ -118,7 +152,7 @@ IndexAsset::register($this);?>
                 if(tid==0){
                     return;
                 }
-                window.location.href = '?id=<?= $id ?>&tid='+(tid+1)
+                window.location.href = '?id=<?= $id ?>&g=<?= $g ?>&tid='+(tid+1)
             }
 
             var countdown=60;

@@ -37,7 +37,7 @@ class IndexController extends BaseController
     {
         $id = Yii::$app->request->get('id',1);
         $gsize = Yii::$app->request->get('gsize',5);
-        
+        $g = Yii::$app->request->get('g',0);
         empty($id) && $id = 1;
         $size = Yii::$app->request->get('size',256);
         $r = RemindWordNew::find()->where(['>=','id',$id])->limit($size)->asArray()->all();
@@ -53,7 +53,7 @@ class IndexController extends BaseController
         // echo '<pre>';
         // print_r($data);die;
 
-        return $this->render('index2',['data'=>$data,'tid'=>$tid,'id'=>$id]);
+        return $this->render('index2',['data'=>$data,'tid'=>$tid,'id'=>$id,'g'=>$g]);
     }
 
     public function getNum($num){
